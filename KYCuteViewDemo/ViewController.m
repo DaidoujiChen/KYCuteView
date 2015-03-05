@@ -16,30 +16,20 @@
 
 @implementation ViewController
 
-
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-
-    KYCuteView *cuteView = [[KYCuteView alloc]initWithPoint:CGPointMake(25, 505) superView:self.view];
+    KYCuteView *cuteView = [[KYCuteView alloc] initWithCenter:CGPointMake(25, 505) width:35];
     cuteView.viscosity  = 20;
-    cuteView.bubbleWidth = 35;
     cuteView.bubbleColor = [UIColor colorWithRed:0 green:0.722 blue:1 alpha:1];
-    [cuteView setUp];
-    [cuteView addGesture];
+    cuteView.text = @"13";
+    [self.view addSubview:cuteView];
     
-    //注意：设置 'bubbleLabel.text' 一定要放在 '-setUp' 方法之后
-    //Tips:When you set the 'bubbleLabel.text',you must set it after '-setUp'
-    cuteView.bubbleLabel.text = @"13";
-
+    KYCuteView *otherCuteView = [[KYCuteView alloc] initWithCenter:CGPointMake(0, 160) width:35];
+    otherCuteView.viscosity  = 20;
+    otherCuteView.bubbleColor = [UIColor colorWithRed:0 green:0.722 blue:1 alpha:1];
+    otherCuteView.text = @"17";
+    [self.view addSubview:otherCuteView];
 }
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-}
-
-
-
 
 @end

@@ -9,37 +9,24 @@
 
 #import <UIKit/UIKit.h>
 
-
 @interface KYCuteView : UIView
 
-//父视图
-//set the view which you wanna add the 'cuteBubble'
-@property (nonatomic,weak)UIView *containerView;
-
-//气泡上显示数字的label
+//汽泡上要顯示的文字
 //the label on the bubble
-@property (nonatomic,strong)UILabel *bubbleLabel;
-
-//气泡的直径
-//bubble's diameter
-@property (nonatomic,assign)CGFloat bubbleWidth;
+@property (nonatomic, strong) NSString *text;
 
 //气泡粘性系数，越大可以拉得越长
 //viscosity of the bubble,the bigger you set,the longer you drag
-@property (nonatomic,assign)CGFloat viscosity;
+@property (nonatomic, assign) CGFloat viscosity;
 
 //气泡颜色
 //bubble's color
-@property (nonatomic,strong)UIColor *bubbleColor;
+@property (nonatomic, strong) UIColor *bubbleColor;
 
-//需要隐藏气泡时候可以使用这个属性：self.frontView.hidden = YES;
-//if you wanna hidden the bubble, you can ’self.frontView.hidden = YES‘
-@property (nonatomic,strong)UIView *frontView;
+//設定是否需要像是 GameCenter 的漂浮移動
+// default 值是 YES
+@property (nonatomic, assign) BOOL isNeedGameCenterMotionEffect;
 
-
--(id)initWithPoint:(CGPoint)point superView:(UIView *)view;
--(void)setUp;
--(void)addGesture;
-
+- (id)initWithCenter:(CGPoint)center width:(CGFloat)width;
 
 @end

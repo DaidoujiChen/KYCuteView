@@ -54,13 +54,44 @@
 #pragma mark - implement setters / getters
 
 - (void)setText:(NSString *)text {
-    if (!self.bubbleLabel) {
+    if (!self.bubbleLabel || !self.backView.hidden) {
+        [self.bubbleLabel removeFromSuperview];
         self.bubbleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.frontView.bounds.size.width, self.frontView.bounds.size.height)];
+        self.bubbleLabel.text = text;
         self.bubbleLabel.textColor = [UIColor whiteColor];
         self.bubbleLabel.textAlignment = NSTextAlignmentCenter;
         [self.frontView insertSubview:self.bubbleLabel atIndex:0];
     }
-    self.bubbleLabel.text = text;
+    else {
+        UILabel *newLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.frontView.bounds.size.width, self.frontView.bounds.size.height)];
+        newLabel.text = text;
+        newLabel.textColor = [UIColor whiteColor];
+        newLabel.textAlignment = NSTextAlignmentCenter;
+        newLabel.alpha = 0;
+        [self.frontView insertSubview:newLabel atIndex:0];
+        
+        //0.25 是調整出來覺得比較漂亮的感覺
+        NSTimeInterval duration = 0.25f;
+        [UIView animateWithDuration:duration / 5 animations: ^{
+            self.bubbleLabel.alpha = 2.0f / 3.0f;
+            newLabel.alpha = 1.0f / 3.0f;
+            self.frontView.transform = CGAffineTransformScale(CGAffineTransformIdentity, 1.1, 1.1);
+        } completion: ^(BOOL finished) {
+            [UIView animateWithDuration:duration * 3 / 5 animations: ^{
+                self.bubbleLabel.alpha = 1.0f / 3.0f;
+                newLabel.alpha = 2.0f / 3.0f;
+                self.frontView.transform = CGAffineTransformScale(CGAffineTransformIdentity, 0.9, 0.9);
+            } completion: ^(BOOL finished) {
+                [UIView animateWithDuration:duration / 5 animations: ^{
+                    self.bubbleLabel.alpha = 0;
+                    newLabel.alpha = 1;
+                    self.frontView.transform = CGAffineTransformIdentity;
+                } completion: ^(BOOL finished) {
+                    self.bubbleLabel = newLabel;
+                }];
+            }];
+        }];
+    }
 }
 
 - (NSString *)text {
@@ -315,6 +346,10 @@
         [self removeDisplayLink];
         [self removeKVOObserver];
     }
+}
+
+- (void)dealloc {
+    NSLog(@"dealloc : %@", self);
 }
 
 @end

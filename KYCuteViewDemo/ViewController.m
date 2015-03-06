@@ -12,6 +12,9 @@
 
 @interface ViewController ()
 
+@property (nonatomic, strong) KYCuteView *cuteView;
+@property (nonatomic, assign) int bubbleCount;
+
 @end
 
 @implementation ViewController
@@ -19,17 +22,19 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    KYCuteView *cuteView = [[KYCuteView alloc] initWithCenter:CGPointMake(25, 505) width:35];
-    cuteView.viscosity  = 20;
-    cuteView.bubbleColor = [UIColor colorWithRed:0 green:0.722 blue:1 alpha:1];
-    cuteView.text = @"13";
-    [self.view addSubview:cuteView];
+    self.bubbleCount = 0;
     
-    KYCuteView *otherCuteView = [[KYCuteView alloc] initWithCenter:CGPointMake(0, 160) width:35];
-    otherCuteView.viscosity  = 20;
-    otherCuteView.bubbleColor = [UIColor colorWithRed:0 green:0.722 blue:1 alpha:1];
-    otherCuteView.text = @"17";
-    [self.view addSubview:otherCuteView];
+    self.cuteView = [[KYCuteView alloc] initWithCenter:CGPointMake(25, 505) width:35];
+    self.cuteView.viscosity  = 20;
+    self.cuteView.bubbleColor = [UIColor colorWithRed:0 green:0.722 blue:1 alpha:1];
+    self.cuteView.text = [NSString stringWithFormat:@"%d", self.bubbleCount++];
+    [self.view addSubview:self.cuteView];
+    
+    [NSTimer scheduledTimerWithTimeInterval:1.5f target:self selector:@selector(countLoop) userInfo:nil repeats:YES];
+}
+
+- (void)countLoop {
+    self.cuteView.text = [NSString stringWithFormat:@"%d", self.bubbleCount++];
 }
 
 @end
